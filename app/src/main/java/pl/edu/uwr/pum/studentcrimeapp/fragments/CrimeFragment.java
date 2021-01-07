@@ -37,7 +37,6 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -45,37 +44,36 @@ import java.util.List;
 import java.util.Date;
 import java.util.UUID;
 
-import pl.edu.uwr.pum.studentcrimeapp.CrimeActivity;
-import pl.edu.uwr.pum.studentcrimeapp.CrimeViewPagerActivity;
 import pl.edu.uwr.pum.studentcrimeapp.R;
 import pl.edu.uwr.pum.studentcrimeapp.models.Crime;
 import pl.edu.uwr.pum.studentcrimeapp.picker.DatePickerFragment;
 import pl.edu.uwr.pum.studentcrimeapp.picker.TimePickerFragment;
 
 public class CrimeFragment extends Fragment {
-    private Crime crime;
-    private List<Crime> mCrimeData;
     private EditText titleField;
     private Button dateButton;
     private Button updateButton;
     private Button mTakePictureButton;
     private ImageView mPictureImageView;
     private CheckBox solvedCheckBox;
+
+    private Crime crime;
+    private List<Crime> mCrimeData;
+    private Uri savePicturePath = null;
     private Date mNewDate;
     private int mIndex;
+
     public static int CurrentPosition = 0;
     private static final String DIALOG_DATE = "DATE";
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_TIME = 1;
     private static final String DIALOG_TIME = "TIME";
-    private Uri savePicturePath = null;
-
     private static final int CAMERA_PERMISSION_CODE = 1;
     private static final int CAMERA_INTENT = 2;
 
     public CrimeFragment()
     {
-        //require empty public constructir
+        //require empty public constructor
     }
 
     public static CrimeFragment newInstance(int counter) {
@@ -127,6 +125,9 @@ public class CrimeFragment extends Fragment {
             }
         });
 
+        if (crime.getPicture() != null)
+            mPictureImageView.setImageURI(Uri.parse(crime.getPicture()));
+
         dateButton.setText(crime.getDate().toString());
 
         dateButton.setOnClickListener(new View.OnClickListener()
@@ -153,7 +154,7 @@ public class CrimeFragment extends Fragment {
                 String date = dateButton.getText().toString();
                 System.out.println(date);
                 Boolean isSolved = solvedCheckBox.isChecked();
-                CrimeListFragment.dbHandler.updateCrime(crime.getId(), title, date, isSolved);
+                CrimeListFragment.dbHandler.updateCrime(crime.getId(), title, date, isSolved, savePicturePath.toString());
                 CrimeListFragment.getStudentsCrimes();
                 Toast.makeText(getContext(), "Case has been updated", Toast.LENGTH_LONG).show();
             }
@@ -191,7 +192,6 @@ public class CrimeFragment extends Fragment {
             public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken)
             {
                 showRationaleDialog();
-
             }
         }).onSameThread().check();
     }

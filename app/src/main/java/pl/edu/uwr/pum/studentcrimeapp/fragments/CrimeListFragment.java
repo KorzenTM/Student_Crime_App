@@ -24,11 +24,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import pl.edu.uwr.pum.studentcrimeapp.CrimeViewPagerActivity;
+import pl.edu.uwr.pum.studentcrimeapp.activities.CrimeViewPagerActivity;
 import pl.edu.uwr.pum.studentcrimeapp.R;
 import pl.edu.uwr.pum.studentcrimeapp.adapter.CrimeListAdapter;
 import pl.edu.uwr.pum.studentcrimeapp.database.DBHandler;
-import pl.edu.uwr.pum.studentcrimeapp.fragments.CrimeFragment;
 import pl.edu.uwr.pum.studentcrimeapp.models.Crime;
 
 public class CrimeListFragment extends Fragment {
@@ -36,6 +35,7 @@ public class CrimeListFragment extends Fragment {
     private CrimeListAdapter crimeListAdapter;
     private Button mSearchButton;
     private EditText mSearchEditText;
+
     public static DBHandler dbHandler;
     private static Cursor mCursor;
     public static List<Crime> mCrimes = new ArrayList<>();
@@ -48,8 +48,7 @@ public class CrimeListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v =
-                inflater.inflate(R.layout.fragment_crime_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_crime_list, container, false);
 
         FloatingActionButton mAddCrimeFAB = v.findViewById(R.id.fab);
         crimeRecyclerView = v.findViewById(R.id.recycler_view);
@@ -131,10 +130,12 @@ public class CrimeListFragment extends Fragment {
                 String title = mCursor.getString(1);
                 String date = mCursor.getString(2);
                 boolean is_solved = mCursor.getInt(3) > 0;
+                String picture = mCursor.getString(4);
                 crime.setId(id);
                 crime.setTitle(title);
                 crime.setDate(new Date(date));
                 crime.setSolved(is_solved);
+                crime.setPicture(picture);
                 mCrimes.add(crime);
             }
         }
@@ -149,6 +150,7 @@ public class CrimeListFragment extends Fragment {
             crime.setTitle("Crime: " + i);
             crime.setDate(new Date());
             crime.setSolved(i % 2 == 0);
+            crime.setPicture(null);
             dbHandler.addCrime(crime);
         }
     }

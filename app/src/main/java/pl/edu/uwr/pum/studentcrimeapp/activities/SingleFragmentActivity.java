@@ -1,4 +1,4 @@
-package pl.edu.uwr.pum.studentcrimeapp.fragments;
+package pl.edu.uwr.pum.studentcrimeapp.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;

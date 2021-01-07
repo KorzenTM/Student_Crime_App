@@ -12,11 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CrimeViewPagerActivity"
-            android:parentActivityName=".CrimeListActivity">
+        <activity android:name=".activities.CrimeViewPagerActivity"
+            android:parentActivityName=".activities.CrimeListActivity">
 
         </activity>
-        <activity android:name=".CrimeListActivity">
+        <activity android:name=".activities.CrimeListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

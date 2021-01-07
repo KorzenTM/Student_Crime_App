@@ -11,11 +11,22 @@ public class Crime implements Parcelable
 
     private int id;
     private String title;
+    private String picture;
     private Date date;
     private boolean solved;
 
     public Crime(){
         date = new Date();
+    }
+
+    public String getPicture()
+    {
+        return picture;
+    }
+
+    public void setPicture(String picture)
+    {
+        this.picture = picture;
     }
 
     public String getTitle() {

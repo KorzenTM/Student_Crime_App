@@ -19,7 +19,7 @@ import java.util.List;
 import pl.edu.uwr.pum.studentcrimeapp.models.Crime;
 import pl.edu.uwr.pum.studentcrimeapp.fragments.CrimeFragment;
 import pl.edu.uwr.pum.studentcrimeapp.fragments.CrimeListFragment;
-import pl.edu.uwr.pum.studentcrimeapp.CrimeViewPagerActivity;
+import pl.edu.uwr.pum.studentcrimeapp.activities.CrimeViewPagerActivity;
 import pl.edu.uwr.pum.studentcrimeapp.R;
 
 public class CrimeListAdapter extends RecyclerView.Adapter<CrimeListAdapter.ViewHolder>
@@ -40,7 +40,6 @@ public class CrimeListAdapter extends RecyclerView.Adapter<CrimeListAdapter.View
         private final TextView mDateTextView;
         private final ImageView mIsSolvedImageView;
         private final Button mDeleteButton;
-        private Button mAddCrimeFAB;
 
         public ViewHolder(@NonNull View itemView)
         {
@@ -50,7 +49,6 @@ public class CrimeListAdapter extends RecyclerView.Adapter<CrimeListAdapter.View
             mDateTextView = itemView.findViewById(R.id.date_text_view);
             mIsSolvedImageView = itemView.findViewById(R.id.is_solved_image_view);
             mDeleteButton = itemView.findViewById(R.id.delete_button);
-            mAddCrimeFAB = itemView.findViewById(R.id.fab);
 
             itemView.setOnClickListener(this);
         }

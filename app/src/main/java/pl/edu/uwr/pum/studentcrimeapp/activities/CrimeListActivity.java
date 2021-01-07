@@ -1,9 +1,9 @@
-package pl.edu.uwr.pum.studentcrimeapp;
+package pl.edu.uwr.pum.studentcrimeapp.activities;
 
 import androidx.fragment.app.Fragment;
 
 import pl.edu.uwr.pum.studentcrimeapp.fragments.CrimeListFragment;
-import pl.edu.uwr.pum.studentcrimeapp.fragments.SingleFragmentActivity;
+import pl.edu.uwr.pum.studentcrimeapp.activities.SingleFragmentActivity;
 
 public class CrimeListActivity extends SingleFragmentActivity
 {
