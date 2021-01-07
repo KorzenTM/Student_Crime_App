@@ -1,10 +1,12 @@
-package pl.edu.uwr.pum.studentcrimeapp;
+package pl.edu.uwr.pum.studentcrimeapp.database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import pl.edu.uwr.pum.studentcrimeapp.models.Crime;
 
 public class DBHandler extends SQLiteOpenHelper
 {

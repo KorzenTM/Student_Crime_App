@@ -1,15 +1,14 @@
-package pl.edu.uwr.pum.studentcrimeapp;
-
-import android.content.Context;
+package pl.edu.uwr.pum.studentcrimeapp.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.List;
+
+import pl.edu.uwr.pum.studentcrimeapp.models.Crime;
+import pl.edu.uwr.pum.studentcrimeapp.fragments.CrimeFragment;
 
 public class CrimeViewPagerAdapter extends FragmentStateAdapter
 {

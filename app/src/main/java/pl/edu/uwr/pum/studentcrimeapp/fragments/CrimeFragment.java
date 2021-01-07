@@ -1,7 +1,6 @@
-package pl.edu.uwr.pum.studentcrimeapp;
+package pl.edu.uwr.pum.studentcrimeapp.fragments;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,24 +10,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager2.widget.ViewPager2;
 
-import java.sql.Time;
 import java.util.List;
-import java.util.Objects;
 import java.util.Date;
+
+import pl.edu.uwr.pum.studentcrimeapp.CrimeActivity;
+import pl.edu.uwr.pum.studentcrimeapp.CrimeViewPagerActivity;
+import pl.edu.uwr.pum.studentcrimeapp.R;
+import pl.edu.uwr.pum.studentcrimeapp.models.Crime;
+import pl.edu.uwr.pum.studentcrimeapp.picker.DatePickerFragment;
+import pl.edu.uwr.pum.studentcrimeapp.picker.TimePickerFragment;
 
 public class CrimeFragment extends Fragment {
     private Crime crime;
@@ -36,6 +35,8 @@ public class CrimeFragment extends Fragment {
     private EditText titleField;
     private Button dateButton;
     private Button updateButton;
+    private Button mTakePictureButton;
+    private ImageView mPictureImageView;
     private CheckBox solvedCheckBox;
     private Date mNewDate;
     private int mIndex;
@@ -77,6 +78,8 @@ public class CrimeFragment extends Fragment {
         titleField = v.findViewById(R.id.crime_title);
         dateButton = v.findViewById(R.id.crime_date);
         updateButton = v.findViewById(R.id.update_button);
+        mTakePictureButton = v.findViewById(R.id.button_add_picture);
+        mPictureImageView = v.findViewById(R.id.image_view_picture);
         solvedCheckBox = v.findViewById(R.id.crime_solved);
 
         titleField.addTextChangedListener(new TextWatcher() {
@@ -128,8 +131,19 @@ public class CrimeFragment extends Fragment {
                 Toast.makeText(getContext(), "Case has been updated", Toast.LENGTH_LONG).show();
             }
         });
+
+        mTakePictureButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                ((CrimeViewPagerActivity)getActivity()).chooseCamera();
+            }
+        });
         return v;
     }
+
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)

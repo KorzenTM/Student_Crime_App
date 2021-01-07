@@ -1,4 +1,4 @@
-package pl.edu.uwr.pum.studentcrimeapp;
+package pl.edu.uwr.pum.studentcrimeapp.picker;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,6 +17,8 @@ import androidx.fragment.app.DialogFragment;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import pl.edu.uwr.pum.studentcrimeapp.R;
 
 public class DatePickerFragment extends DialogFragment
 {

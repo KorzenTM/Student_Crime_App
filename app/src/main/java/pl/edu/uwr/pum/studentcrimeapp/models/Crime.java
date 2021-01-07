@@ -1,4 +1,4 @@
-package pl.edu.uwr.pum.studentcrimeapp;
+package pl.edu.uwr.pum.studentcrimeapp.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

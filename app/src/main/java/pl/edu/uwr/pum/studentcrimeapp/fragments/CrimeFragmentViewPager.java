@@ -1,4 +1,4 @@
-package pl.edu.uwr.pum.studentcrimeapp;
+package pl.edu.uwr.pum.studentcrimeapp.fragments;
 
 import android.os.Bundle;
 
@@ -9,6 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import pl.edu.uwr.pum.studentcrimeapp.R;
+import pl.edu.uwr.pum.studentcrimeapp.adapter.CrimeViewPagerAdapter;
+import pl.edu.uwr.pum.studentcrimeapp.fragments.CrimeFragment;
+import pl.edu.uwr.pum.studentcrimeapp.fragments.CrimeListFragment;
 
 public class CrimeFragmentViewPager extends Fragment
 {

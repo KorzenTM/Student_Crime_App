@@ -1,4 +1,4 @@
-package pl.edu.uwr.pum.studentcrimeapp;
+package pl.edu.uwr.pum.studentcrimeapp.picker;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,9 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
+
+import pl.edu.uwr.pum.studentcrimeapp.R;
 
 public class TimePickerFragment extends DialogFragment
 {

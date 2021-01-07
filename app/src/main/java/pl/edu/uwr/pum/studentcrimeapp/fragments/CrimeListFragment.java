@@ -1,4 +1,4 @@
-package pl.edu.uwr.pum.studentcrimeapp;
+package pl.edu.uwr.pum.studentcrimeapp.fragments;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -17,13 +17,19 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import pl.edu.uwr.pum.studentcrimeapp.CrimeViewPagerActivity;
+import pl.edu.uwr.pum.studentcrimeapp.R;
+import pl.edu.uwr.pum.studentcrimeapp.adapter.CrimeListAdapter;
+import pl.edu.uwr.pum.studentcrimeapp.database.DBHandler;
+import pl.edu.uwr.pum.studentcrimeapp.fragments.CrimeFragment;
+import pl.edu.uwr.pum.studentcrimeapp.models.Crime;
 
 public class CrimeListFragment extends Fragment {
     private RecyclerView crimeRecyclerView;
@@ -160,4 +166,5 @@ public class CrimeListFragment extends Fragment {
         dbHandler.close();
         super.onDestroy();
     }
+
 }

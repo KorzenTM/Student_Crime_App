@@ -1,4 +1,4 @@
-package pl.edu.uwr.pum.studentcrimeapp;
+package pl.edu.uwr.pum.studentcrimeapp.adapter;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -15,6 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
+
+import pl.edu.uwr.pum.studentcrimeapp.models.Crime;
+import pl.edu.uwr.pum.studentcrimeapp.fragments.CrimeFragment;
+import pl.edu.uwr.pum.studentcrimeapp.fragments.CrimeListFragment;
+import pl.edu.uwr.pum.studentcrimeapp.CrimeViewPagerActivity;
+import pl.edu.uwr.pum.studentcrimeapp.R;
 
 public class CrimeListAdapter extends RecyclerView.Adapter<CrimeListAdapter.ViewHolder>
 {
