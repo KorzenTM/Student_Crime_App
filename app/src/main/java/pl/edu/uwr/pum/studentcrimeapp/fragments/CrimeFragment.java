@@ -1,10 +1,20 @@
 package pl.edu.uwr.pum.studentcrimeapp.fragments;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +29,21 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Date;
+import java.util.UUID;
 
 import pl.edu.uwr.pum.studentcrimeapp.CrimeActivity;
 import pl.edu.uwr.pum.studentcrimeapp.CrimeViewPagerActivity;
@@ -45,6 +68,10 @@ public class CrimeFragment extends Fragment {
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_TIME = 1;
     private static final String DIALOG_TIME = "TIME";
+    private Uri savePicturePath = null;
+
+    private static final int CAMERA_PERMISSION_CODE = 1;
+    private static final int CAMERA_INTENT = 2;
 
     public CrimeFragment()
     {
@@ -137,10 +164,54 @@ public class CrimeFragment extends Fragment {
             @Override
             public void onClick(View view)
             {
-                ((CrimeViewPagerActivity)getActivity()).chooseCamera();
+                chooseCamera();
             }
         });
         return v;
+    }
+
+    public void chooseCamera()
+    {
+        Dexter.withContext(getActivity()).withPermission(Manifest.permission.CAMERA).withListener(new PermissionListener()
+        {
+            @Override
+            public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse)
+            {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, CAMERA_INTENT);
+            }
+
+            @Override
+            public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse)
+            {
+
+            }
+
+            @Override
+            public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken)
+            {
+                showRationaleDialog();
+
+            }
+        }).onSameThread().check();
+    }
+
+    private void showRationaleDialog()
+    {
+        new AlertDialog.Builder(getActivity())
+                .setMessage("This feature requires permissions")
+                .setPositiveButton("Ask me", (dialog, which) -> {
+                    try {
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
+                        intent.setData(uri);
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                })
+                .setNegativeButton("CANCEL", (dialog, which) -> dialog.dismiss())
+                .show();
     }
 
 
@@ -157,22 +228,53 @@ public class CrimeFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
-        if(resultCode != Activity.RESULT_OK)
-            return;
-
-        if (requestCode == REQUEST_DATE)
+        if (resultCode == Activity.RESULT_OK)
         {
-            mNewDate = (Date) data.getSerializableExtra(DatePickerFragment.Extra_Date);
+            if (data != null)
+            {
+                switch (requestCode)
+                {
+                    case REQUEST_DATE:
+                        mNewDate = (Date) data.getSerializableExtra(DatePickerFragment.Extra_Date);
+                        break;
+                    case REQUEST_TIME:
+                        int hour = data.getIntExtra("hour", 0);
+                        int minutes = data.getIntExtra("minutes", 0);
+                        mNewDate.setHours(hour);
+                        mNewDate.setMinutes(minutes);
+                        dateButton.setText(mNewDate.toString());
+                        break;
+                    case CAMERA_INTENT:
+                        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+                        mPictureImageView.setImageBitmap(thumbnail);
+                        savePicturePath = savePicture(thumbnail);
+                        Log.d("PICTURE", "Path" + savePicturePath);
+                        break;
+                }
+            }
+        }
+        else return;
+    }
+
+    private Uri savePicture(Bitmap bitmap)
+    {
+        ContextWrapper wrapper = new ContextWrapper(getActivity().getApplicationContext());
+        File file = wrapper.getDir("myGallery", Context.MODE_PRIVATE);
+        file = new File(file, UUID.randomUUID().toString() + ".jpg");
+
+        try
+        {
+            OutputStream stream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            stream.flush();
+            stream.close();
+
+        } catch (IOException e)
+        {
+            e.printStackTrace();
         }
 
-        if (requestCode == REQUEST_TIME)
-        {
-            int hour = data.getIntExtra("hour", 0);
-            int minutes = data.getIntExtra("minutes", 0);
-            mNewDate.setHours(hour);
-            mNewDate.setMinutes(minutes);
-            dateButton.setText(mNewDate.toString());
-        }
+        return Uri.parse(file.getAbsolutePath());
     }
 }
 
